@@ -1,17 +1,10 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Setup') {
-            steps {
-                script {
-                    // Установите Python, если он еще не установлен
-                    sh 'sudo apt-get update'
-                    sh 'sudo apt-get install -y python3'
-                }
-            }
+    agent {
+        docker {
+            image 'python:3.8-slim'
         }
-
+    }
+    stages {
         stage('Run Python code') {
             steps {
                 script {
