@@ -1,24 +1,23 @@
 pipeline {
-    agent {
-        docker {
-            image 'alpine'
-        }
-    }
+    agent any
+
     stages {
         stage('Setup') {
             steps {
-                sh 'apk add --no-cache python3 && ln -sf python3 /usr/bin/python'
-                sh 'python --version'
+                script {
+                    // Установите Python, если он еще не установлен
+                    sh 'sudo apt-get update'
+                    sh 'sudo apt-get install -y python3'
+                }
             }
         }
-        stage('version') {
+
+        stage('Run Python code') {
             steps {
-                sh 'python3 --version'
-            }
-        }
-        stage('build') {
-            steps {
-                sh 'python3 main.py'
+                script {
+                    // Запустите ваш Python код
+                    sh 'python3 main.py'
+                }
             }
         }
     }
